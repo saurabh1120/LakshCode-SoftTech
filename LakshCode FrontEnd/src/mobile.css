@@ -1,0 +1,149 @@
+
+@media (max-width: 900px) {
+
+  /* ---- HERO ---- */
+  section[style*="min-height: 100vh"] > div > div[style*="grid-template-columns: 1fr 1fr"] {
+    grid-template-columns: 1fr !important;
+    gap: 40px !important;
+    padding: 40px 24px !important;
+  }
+
+  /* Hide dashboard mockup on mobile */
+  section[style*="min-height: 100vh"] > div > div > div:last-child {
+    display: none !important;
+  }
+
+  /* Hero heading */
+  h1[style*="clamp"] {
+    font-size: clamp(2rem, 8vw, 3rem) !important;
+  }
+}
+
+@media (max-width: 768px) {
+
+  /* ---- NAVBAR ---- */
+  nav > div,
+  header > div {
+    padding: 0 20px !important;
+  }
+
+  /* ---- SECTIONS universal padding ---- */
+  section {
+    padding: 72px 0 !important;
+  }
+
+  /* ---- ALL grids → single column ---- */
+  div[style*="grid-template-columns: repeat(3"] {
+    grid-template-columns: 1fr !important;
+    gap: 16px !important;
+  }
+
+  div[style*="grid-template-columns: repeat(2"] {
+    grid-template-columns: 1fr !important;
+    gap: 16px !important;
+  }
+
+  div[style*="grid-template-columns: 1fr 1.8fr"],
+  div[style*="grid-template-columns: 1fr 1.6fr"],
+  div[style*="grid-template-columns: 2fr 1fr"],
+  div[style*="grid-template-columns: 2.5fr 1fr 1fr"],
+  div[style*="grid-template-columns: 1fr 1fr"] {
+    grid-template-columns: 1fr !important;
+    gap: 24px !important;
+  }
+
+  /* ---- TECH STACK → 4 col → 2 col ---- */
+  div[style*="grid-template-columns: repeat(4"] {
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 12px !important;
+  }
+
+  /* ---- PROCESS → 3 col → 1 col ---- */
+  div[style*="grid-template-columns: repeat(6"] {
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 16px !important;
+  }
+
+  /* ---- CONTACT form grid ---- */
+  div[style*="grid-template-columns: 1fr 1fr"] {
+    grid-template-columns: 1fr !important;
+  }
+
+  /* ---- FOOTER grid ---- */
+  div[style*="grid-template-columns: 2fr 1fr 1fr"] {
+    grid-template-columns: 1fr !important;
+    gap: 32px !important;
+  }
+
+  /* ---- ADMIN SIDEBAR on mobile ---- */
+  div[style*="width: '240px'"],
+  div[style*="minWidth: '240px'"] {
+    display: none !important;
+  }
+
+  div[style*="marginLeft: '240px'"] {
+    margin-left: 0 !important;
+    padding: 20px !important;
+  }
+
+  /* ---- MODAL boxes ---- */
+  div[style*="maxWidth: '680px'"],
+  div[style*="maxWidth: '620px'"],
+  div[style*="maxWidth: '520px'"] {
+    max-width: 100% !important;
+    margin: 12px !important;
+    padding: 24px !important;
+  }
+
+  /* ---- BLOG DETAIL ---- */
+  div[style*="maxWidth: '860px'"] {
+    padding-left: 20px !important;
+    padding-right: 20px !important;
+  }
+
+  /* ---- HERO buttons ---- */
+  div[style*="display: 'flex'"][style*="gap: '14px'"] a {
+    padding: 12px 20px !important;
+    font-size: 14px !important;
+  }
+
+  /* ---- Headings scale down ---- */
+  h1, h2 {
+    letter-spacing: -0.5px !important;
+  }
+
+  /* ---- CONTACT form padding ---- */
+  div[style*="padding: '44px'"] {
+    padding: 24px !important;
+  }
+
+  div[style*="padding: '48px'"] {
+    padding: 24px !important;
+  }
+}
+
+@media (max-width: 480px) {
+
+  /* Extra small phones */
+  div[style*="grid-template-columns: repeat(2, 1fr)"] {
+    grid-template-columns: 1fr !important;
+  }
+
+  /* Stat cards in hero */
+  div[style*="gap: '40px'"][style*="border-top"] {
+    gap: 20px !important;
+  }
+
+  /* Section heading */
+  h2 {
+    font-size: clamp(1.6rem, 7vw, 2.4rem) !important;
+  }
+
+  /* WhatsApp button */
+  a[style*="bottom: '32px'"][style*="right: '32px'"] {
+    bottom: 20px !important;
+    right: 20px !important;
+    width: 48px !important;
+    height: 48px !important;
+  }
+}
