@@ -4,7 +4,7 @@ import { FiPlus, FiEdit2, FiTrash2, FiX, FiCheck, FiExternalLink } from 'react-i
 import { toast } from 'react-toastify'
 import API from '../../api/axios'
 import { useAdminSuccess } from '../../hooks/useAdminSuccess'
-import { imgUrl } from '../api/imageUrl'
+import { imgUrl } from '../../api/imageUrl'
 
 const empty = {
   title: '', description: '', techStack: '',
