@@ -3,6 +3,7 @@ import { useParams, useNavigate } from 'react-router-dom'
 import { motion } from 'framer-motion'
 import { FiArrowLeft, FiCalendar, FiClock } from 'react-icons/fi'
 import API from '../../api/axios'
+import { imgUrl } from '../../api/imageUrl'
 
 export default function BlogDetail() {
   const { id } = useParams()
@@ -215,7 +216,8 @@ export default function BlogDetail() {
             }}
           >
             <img
-              src={'http://localhost:8080' + blog.thumbnailUrl}
+              // src={'http://localhost:8080' + blog.thumbnailUrl}
+              src={imgUrl(blog.imageUrl)}
               alt={blog.title}
               style={{
                 width: '100%', maxHeight: '440px',

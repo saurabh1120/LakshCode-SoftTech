@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
 import { FiArrowLeft, FiExternalLink } from 'react-icons/fi'
 import API from '../../api/axios'
+import { imgUrl } from '../../api/imageUrl'
 
 export default function ProjectDetail() {
   const { id } = useParams()
@@ -21,7 +22,7 @@ export default function ProjectDetail() {
           <FiArrowLeft /> Back to Projects
         </button>
         {project.imageUrl && (
-          <img src={`http://localhost:8080${project.imageUrl}`} alt={project.title} className="w-full h-72 object-cover rounded-3xl mb-8" />
+          <img src={imgUrl(project.imageUrl)} alt={project.title} className="w-full h-72 object-cover rounded-3xl mb-8" />
         )}
         <h1 className="text-4xl font-black text-white mb-4">{project.title}</h1>
         <p className="text-gray-300 text-lg leading-relaxed mb-8">{project.description}</p>

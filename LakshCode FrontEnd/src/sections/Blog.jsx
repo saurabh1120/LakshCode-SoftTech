@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { useNavigate } from 'react-router-dom'
 import { FiArrowRight, FiCalendar, FiChevronLeft, FiChevronRight } from 'react-icons/fi'
 import API from '../api/axios'
+import { imgUrl } from '../api/imageUrl'
 
 const BLOGS_PER_PAGE = 3
 
@@ -199,7 +200,8 @@ export default function Blog() {
                       }}>
                         {b.thumbnailUrl ? (
                           <img
-                            src={'http://localhost:8080' + b.thumbnailUrl}
+                            // src={'http://localhost:8080' + b.thumbnailUrl}
+                            src={imgUrl(b.imageUrl)}
                             alt={b.title}
                             style={{
                               width: '100%', height: '100%',

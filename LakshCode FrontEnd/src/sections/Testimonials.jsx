@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { FiChevronLeft, FiChevronRight } from 'react-icons/fi'
 import { FaStar } from 'react-icons/fa'
 import API from '../api/axios'
+// import { imgUrl } from '../api/imageUrl'
 
 export default function Testimonials() {
   const [list, setList] = useState([])

@@ -4,6 +4,7 @@ import { FiPlus, FiEdit2, FiTrash2, FiX, FiCheck, FiExternalLink } from 'react-i
 import { toast } from 'react-toastify'
 import API from '../../api/axios'
 import { useAdminSuccess } from '../../hooks/useAdminSuccess'
+import { imgUrl } from '../api/imageUrl'
 
 const empty = {
   title: '', description: '', techStack: '',
@@ -254,7 +255,7 @@ export default function ManageProjects() {
                 position: 'relative', overflow: 'hidden',
               }}>
                 {p.imageUrl
-                  ? <img src={'http://localhost:8080' + p.imageUrl} alt={p.title}
+                  ? <img src={imgUrl(p.imageUrl)} alt={p.title}
                     style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
                   : <div style={{
                     width: '100%', height: '100%',

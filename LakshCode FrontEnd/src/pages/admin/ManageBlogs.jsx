@@ -4,6 +4,7 @@ import { FiPlus, FiEdit2, FiTrash2, FiX, FiEye, FiEyeOff, FiCheck } from 'react-
 import { toast } from 'react-toastify'
 import API from '../../api/axios'
 import { useAdminSuccess } from '../../hooks/useAdminSuccess'
+import { imgUrl } from '../../api/imageUrl'
 
 const empty = { title: '', content: '', excerpt: '', published: false }
 
@@ -267,7 +268,7 @@ export default function ManageBlogs() {
                   background: 'linear-gradient(135deg,rgba(14,165,233,0.15),rgba(99,102,241,0.15))',
                 }}>
                   {b.thumbnailUrl && (
-                    <img src={'http://localhost:8080' + b.thumbnailUrl} alt={b.title}
+                    <img src={imgUrl(b.imageUrl)} alt={b.title}
                       style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
                   )}
                 </div>

@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { FiExternalLink, FiX, FiChevronLeft, FiChevronRight } from 'react-icons/fi'
 import API from '../api/axios'
+import { imgUrl } from '../api/imageUrl'
 
 const PROJECTS_PER_PAGE = 3
 
@@ -198,7 +199,8 @@ export default function Projects() {
                         }}>
                           {p.imageUrl ? (
                             <img
-                              src={'http://localhost:8080' + p.imageUrl}
+                              // src={'http://localhost:8080' + p.imageUrl}
+                              src={imgUrl(p.imageUrl)}
                               alt={p.title}
                               style={{ width: '100%', height: '100%', objectFit: 'cover' }}
                             />
@@ -456,7 +458,8 @@ export default function Projects() {
               {selected.imageUrl && (
                 <div style={{ height: '260px', flexShrink: 0, overflow: 'hidden' }}>
                   <img
-                    src={'http://localhost:8080' + selected.imageUrl}
+                    // src={'http://localhost:8080' + selected.imageUrl}
+                    src={imgUrl(selected.imageUrl)}
                     alt={selected.title}
                     style={{ width: '100%', height: '100%', objectFit: 'cover' }}
                   />
