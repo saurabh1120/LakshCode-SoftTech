@@ -79,6 +79,9 @@ export default function BlogDetail() {
     : 0
   const readTime = Math.max(1, Math.ceil(wordCount / 200))
 
+  // Build correct image URL
+  const thumbnail = blog.thumbnailUrl ? imgUrl(blog.thumbnailUrl) : null
+
   return (
     <div style={{
       minHeight: '100vh',
@@ -200,32 +203,60 @@ export default function BlogDetail() {
         boxSizing: 'border-box',
       }}>
 
-        {/* Thumbnail */}
-        {blog.thumbnailUrl && (
-          <motion.div
-            initial={{ opacity: 0, y: 24 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.25 }}
-            style={{
-              marginTop: '-20px',
-              marginBottom: '48px',
-              borderRadius: '20px',
-              overflow: 'hidden',
-              border: '1px solid rgba(255,255,255,0.08)',
-              boxShadow: '0 24px 60px rgba(0,0,0,0.5)',
-            }}
-          >
+        {/* Thumbnail area */}
+        <motion.div
+          initial={{ opacity: 0, y: 24 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.25 }}
+          style={{
+            marginTop: '-20px',
+            marginBottom: '48px',
+            borderRadius: '20px',
+            overflow: 'hidden',
+            border: '1px solid rgba(255,255,255,0.08)',
+            boxShadow: '0 24px 60px rgba(0,0,0,0.5)',
+            background: 'linear-gradient(135deg,rgba(52,211,153,0.12),rgba(14,165,233,0.12))',
+            position: 'relative',
+            minHeight: thumbnail ? 'auto' : '300px',
+          }}
+        >
+          {thumbnail ? (
             <img
-              // src={'http://localhost:8080' + blog.thumbnailUrl}
-              src={imgUrl(blog.imageUrl)}
+              src={thumbnail}
               alt={blog.title}
               style={{
                 width: '100%', maxHeight: '440px',
                 objectFit: 'cover', display: 'block',
               }}
+              onError={function (e) {
+                // If image fails to load, hide it and show fallback
+                e.target.style.display = 'none'
+                e.target.nextSibling.style.display = 'flex'
+              }}
             />
-          </motion.div>
-        )}
+          ) : null}
+
+          {/* Fallback — shown when no image or image fails */}
+          <div style={{
+            width: '100%',
+            height: thumbnail ? '440px' : '300px',
+            display: thumbnail ? 'none' : 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            flexDirection: 'column',
+            gap: '8px',
+            position: thumbnail ? 'absolute' : 'relative',
+            top: 0, left: 0,
+          }}>
+            <div style={{
+              fontSize: '82px', fontWeight: 900,
+              color: 'rgba(52,211,153,0.2)',
+              letterSpacing: '-4px',
+            }}>
+              {blog.title ? blog.title[0].toUpperCase() : 'B'}
+            </div>
+          </div>
+        </motion.div>
 
         {/* Excerpt callout */}
         {blog.excerpt && (
