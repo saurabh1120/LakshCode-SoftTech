@@ -1,0 +1,35 @@
+Service URI
+mysql://
+CLICK_TO:REVEAL_PASSWORD
+@mysql-1a20953b-saurabhsinha1850-8bb0.k.aivencloud.com:18071/defaultdb?ssl-mode=REQUIRED
+
+Database name
+defaultdb
+
+Host
+mysql-1a20953b-saurabhsinha1850-8bb0.k.aivencloud.com
+
+Port
+18071
+
+User
+avnadmin
+
+Password
+AVNS_qrjaO8WOrhSjCiVz_JX
+
+
+
+SSL mode
+REQUIRED
+
+CA certificate
+
+Show
+
+
+https://console.cloudinary.com/
+
+Cloud name - dazown2hz
+cloude api key - 424324329128296
+cloude API Secret - PLMBTh-r7hOIRiS4nxfdM53O2ng

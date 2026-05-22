@@ -3,16 +3,15 @@ package Com.LakshCode.SoftTech.controller;
 import Com.LakshCode.SoftTech.dto.ApiResponse;
 import Com.LakshCode.SoftTech.entity.SiteSettings;
 import Com.LakshCode.SoftTech.repository.SiteSettingsRepository;
+import Com.LakshCode.SoftTech.security.CloudinaryService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.nio.file.*;
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/settings")
@@ -20,6 +19,7 @@ import java.util.UUID;
 public class SettingsController {
 
     private final SiteSettingsRepository settingsRepo;
+    private final CloudinaryService cloudinaryService;
 
     private SiteSettings getOrCreate() {
         List<SiteSettings> all = settingsRepo.findAll();
@@ -69,15 +69,15 @@ public class SettingsController {
     @PostMapping("/logo")
     public ResponseEntity<ApiResponse<String>> uploadLogo(
             @RequestParam("logo") MultipartFile file) throws IOException {
-        String filename = UUID.randomUUID() + "_" + file.getOriginalFilename();
-        Path path = Paths.get("uploads/logo");
-        Files.createDirectories(path);
-        Files.copy(file.getInputStream(),
-                path.resolve(filename), StandardCopyOption.REPLACE_EXISTING);
-        String url = "/uploads/logo/" + filename;
-        SiteSettings s = getOrCreate();
+
+        String url = cloudinaryService.uploadImage(file, "logo");
+
+        SiteSettings s = settingsRepo.findAll()
+                .stream().findFirst().orElse(new SiteSettings());
         s.setLogoUrl(url);
         settingsRepo.save(s);
+
         return ResponseEntity.ok(ApiResponse.success(url, "Logo uploaded"));
     }
 }
+
