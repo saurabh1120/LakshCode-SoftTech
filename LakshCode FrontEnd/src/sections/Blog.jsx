@@ -163,107 +163,130 @@ export default function Blog() {
                     width: '100%',
                   }}
                 >
-                  {currentBlogs.map((b) => (
-                    <motion.div
-                      key={b.id}
-                      onClick={() => { navigate('/blog/' + b.id) }}
-                      style={{
-                        background: 'rgba(255,255,255,0.025)',
-                        border: '1px solid rgba(255,255,255,0.07)',
-                        borderRadius: '24px',
-                        overflow: 'hidden',
-                        cursor: 'pointer',
-                        transition: 'all 0.35s ease',
-                        display: 'flex',
-                        flexDirection: 'column',
-                        width: '100%',
-                        boxSizing: 'border-box',
-                      }}
-                      onMouseEnter={(e) => {
-                        e.currentTarget.style.transform = 'translateY(-8px)'
-                        e.currentTarget.style.borderColor = 'rgba(52,211,153,0.3)'
-                        e.currentTarget.style.boxShadow = '0 24px 60px rgba(0,0,0,0.4)'
-                      }}
-                      onMouseLeave={(e) => {
-                        e.currentTarget.style.transform = 'translateY(0)'
-                        e.currentTarget.style.borderColor = 'rgba(255,255,255,0.07)'
-                        e.currentTarget.style.boxShadow = 'none'
-                      }}
-                    >
-                      {/* Thumbnail */}
-                      <div style={{
-                        height: '200px',
-                        background: 'linear-gradient(135deg,rgba(52,211,153,0.12),rgba(14,165,233,0.12))',
-                        position: 'relative',
-                        overflow: 'hidden',
-                        flexShrink: 0,
-                      }}>
-                        {b.thumbnailUrl ? (
-                          <img
-                            // src={'http://localhost:8080' + b.thumbnailUrl}
-                            src={imgUrl(b.imageUrl)}
-                            alt={b.title}
-                            style={{
-                              width: '100%', height: '100%',
-                              objectFit: 'cover',
-                            }}
-                          />
-                        ) : (
+                  {currentBlogs.map((b) => {
+                    // Build correct image URL
+                    const thumbnail = b.thumbnailUrl ? imgUrl(b.thumbnailUrl) : null
+
+                    return (
+                      <motion.div
+                        key={b.id}
+                        onClick={() => { navigate('/blog/' + b.id) }}
+                        style={{
+                          background: 'rgba(255,255,255,0.025)',
+                          border: '1px solid rgba(255,255,255,0.07)',
+                          borderRadius: '24px',
+                          overflow: 'hidden',
+                          cursor: 'pointer',
+                          transition: 'all 0.35s ease',
+                          display: 'flex',
+                          flexDirection: 'column',
+                          width: '100%',
+                          boxSizing: 'border-box',
+                        }}
+                        onMouseEnter={(e) => {
+                          e.currentTarget.style.transform = 'translateY(-8px)'
+                          e.currentTarget.style.borderColor = 'rgba(52,211,153,0.3)'
+                          e.currentTarget.style.boxShadow = '0 24px 60px rgba(0,0,0,0.4)'
+                        }}
+                        onMouseLeave={(e) => {
+                          e.currentTarget.style.transform = 'translateY(0)'
+                          e.currentTarget.style.borderColor = 'rgba(255,255,255,0.07)'
+                          e.currentTarget.style.boxShadow = 'none'
+                        }}
+                      >
+                        {/* Thumbnail area */}
+                        <div style={{
+                          height: '200px',
+                          background: 'linear-gradient(135deg,rgba(52,211,153,0.12),rgba(14,165,233,0.12))',
+                          position: 'relative',
+                          overflow: 'hidden',
+                          flexShrink: 0,
+                        }}>
+                          {thumbnail ? (
+                            <img
+                              src={thumbnail}
+                              alt={b.title}
+                              style={{
+                                width: '100%',
+                                height: '100%',
+                                objectFit: 'cover',
+                                display: 'block',
+                              }}
+                              onError={function (e) {
+                                // If image fails to load, hide it and show fallback
+                                e.target.style.display = 'none'
+                                e.target.nextSibling.style.display = 'flex'
+                              }}
+                            />
+                          ) : null}
+
+                          {/* Fallback — shown when no image or image fails */}
                           <div style={{
                             width: '100%', height: '100%',
-                            display: 'flex', alignItems: 'center',
+                            display: thumbnail ? 'none' : 'flex',
+                            alignItems: 'center',
                             justifyContent: 'center',
-                            fontSize: '40px', fontWeight: 900,
-                            color: 'rgba(52,211,153,0.2)',
+                            flexDirection: 'column',
+                            gap: '8px',
+                            position: thumbnail ? 'absolute' : 'relative',
+                            top: 0, left: 0,
                           }}>
-                            {b.title ? b.title[0].toUpperCase() : 'B'}
+                            <div style={{
+                              fontSize: '52px', fontWeight: 900,
+                              color: 'rgba(52,211,153,0.2)',
+                              letterSpacing: '-2px',
+                            }}>
+                              {b.title ? b.title[0].toUpperCase() : 'B'}
+                            </div>
                           </div>
-                        )}
 
-                        <div style={{
-                          position: 'absolute', bottom: '12px', left: '12px',
-                          display: 'flex', alignItems: 'center', gap: '6px',
-                          padding: '5px 12px',
-                          background: 'rgba(3,7,18,0.75)',
-                          backdropFilter: 'blur(8px)',
-                          borderRadius: '99px',
-                          fontSize: '11px', color: '#94a3b8', fontWeight: 500,
-                        }}>
-                          <FiCalendar size={11} />
-                          {new Date(b.createdAt).toLocaleDateString('en-IN', {
-                            day: 'numeric', month: 'short', year: 'numeric',
-                          })}
+                          {/* Date overlay */}
+                          <div style={{
+                            position: 'absolute', bottom: '12px', left: '12px',
+                            display: 'flex', alignItems: 'center', gap: '6px',
+                            padding: '5px 12px',
+                            background: 'rgba(3,7,18,0.75)',
+                            backdropFilter: 'blur(8px)',
+                            borderRadius: '99px',
+                            fontSize: '11px', color: '#94a3b8', fontWeight: 500,
+                            zIndex: 1,
+                          }}>
+                            <FiCalendar size={11} />
+                            {new Date(b.createdAt).toLocaleDateString('en-IN', {
+                              day: 'numeric', month: 'short', year: 'numeric',
+                            })}
+                          </div>
                         </div>
-                      </div>
 
-                      {/* Content */}
-                      <div style={{ padding: '24px 26px 26px', display: 'flex', flexDirection: 'column', flex: 1 }}>
-                        <h3 style={{
-                          fontSize: '17px', fontWeight: 700,
-                          color: '#f1f5f9', marginBottom: '10px',
-                          lineHeight: 1.35, display: '-webkit-box',
-                          WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden',
-                        }}>
-                          {b.title}
-                        </h3>
-                        <p style={{
-                          fontSize: '14px', color: '#475569',
-                          lineHeight: 1.7, marginBottom: '20px',
-                          flex: 1, display: '-webkit-box',
-                          WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden',
-                        }}>
-                          {b.excerpt || 'Click to read the full article...'}
-                        </p>
-                        <div style={{
-                          display: 'flex', alignItems: 'center', gap: '6px',
-                          fontSize: '14px', fontWeight: 600, color: '#34d399',
-                          paddingTop: '16px', borderTop: '1px solid rgba(255,255,255,0.06)',
-                        }}>
-                          Read More <FiArrowRight size={15} />
+                        {/* Content */}
+                        <div style={{ padding: '24px 26px 26px', display: 'flex', flexDirection: 'column', flex: 1 }}>
+                          <h3 style={{
+                            fontSize: '17px', fontWeight: 700,
+                            color: '#f1f5f9', marginBottom: '10px',
+                            lineHeight: 1.35, display: '-webkit-box',
+                            WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden',
+                          }}>
+                            {b.title}
+                          </h3>
+                          <p style={{
+                            fontSize: '14px', color: '#475569',
+                            lineHeight: 1.7, marginBottom: '20px',
+                            flex: 1, display: '-webkit-box',
+                            WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden',
+                          }}>
+                            {b.excerpt || 'Click to read the full article...'}
+                          </p>
+                          <div style={{
+                            display: 'flex', alignItems: 'center', gap: '6px',
+                            fontSize: '14px', fontWeight: 600, color: '#34d399',
+                            paddingTop: '16px', borderTop: '1px solid rgba(255,255,255,0.06)',
+                          }}>
+                            Read More <FiArrowRight size={15} />
+                          </div>
                         </div>
-                      </div>
-                    </motion.div>
-                  ))}
+                      </motion.div>
+                    )
+                  })}
                   {/* Fill empty slots */}
                   {currentBlogs.length < BLOGS_PER_PAGE && (
                     [...Array(BLOGS_PER_PAGE - currentBlogs.length)].map((_, i) => (
