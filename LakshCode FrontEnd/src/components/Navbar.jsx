@@ -93,7 +93,7 @@ export default function Navbar() {
             src={logo}
             alt="LakshCode SoftTech"
             style={{
-              height: isMobile ? '120px' : '135px',
+              height: isMobile ? '120px' : '130px',
               objectFit: 'contain',
               display: 'block',
             }}
