@@ -119,8 +119,8 @@ export default function Footer() {
             </h4>
             <div style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
               {[
-                settings.email || 'contact@lakshcode.com',
-                settings.phone || '+91-XXXXXXXXXX',
+                settings.email || 'support.lakshcode@gmail.com',
+                settings.phone || '+91-7974485587',
                 settings.address || 'Raipur, Chhattisgarh',
               ].map(function (item, i) {
                 return (
