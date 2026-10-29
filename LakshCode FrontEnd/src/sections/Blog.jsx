@@ -4,12 +4,13 @@ import { useNavigate } from 'react-router-dom'
 import { FiArrowRight, FiCalendar, FiChevronLeft, FiChevronRight } from 'react-icons/fi'
 import API from '../api/axios'
 import { imgUrl } from '../api/imageUrl'
+import { fallbackBlogs } from '../data/fallbackData'
 
 const BLOGS_PER_PAGE = 3
 
 export default function Blog() {
-  const [blogs, setBlogs] = useState([])
-  const [loading, setLoading] = useState(true)
+  const [blogs, setBlogs] = useState(fallbackBlogs)
+  const [loading] = useState(false)
   const [page, setPage] = useState(0)
   const [direction, setDirection] = useState(1)
   const navigate = useNavigate()
@@ -17,12 +18,13 @@ export default function Blog() {
   useEffect(() => {
     window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
 
+    // Fallback blogs show instantly; backend blogs replace them when available
     API.get('/blogs')
       .then((r) => {
-        setBlogs(r.data.data || [])
-        setLoading(false)
+        const data = r.data && r.data.data
+        if (data && data.length) setBlogs(data)
       })
-      .catch(() => { setLoading(false) })
+      .catch(() => { /* backend down — keep fallback blogs */ })
   }, [])
 
   const totalPages = Math.ceil(blogs.length / BLOGS_PER_PAGE)

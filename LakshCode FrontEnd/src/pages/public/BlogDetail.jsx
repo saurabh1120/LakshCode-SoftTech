@@ -4,6 +4,7 @@ import { motion } from 'framer-motion'
 import { FiArrowLeft, FiCalendar, FiClock } from 'react-icons/fi'
 import API from '../../api/axios'
 import { imgUrl } from '../../api/imageUrl'
+import { fallbackBlogs } from '../../data/fallbackData'
 
 export default function BlogDetail() {
   const { id } = useParams()
@@ -28,10 +29,13 @@ export default function BlogDetail() {
 
     let isMounted = true;
 
-    API.get('/blogs/' + id)
+    // Try backend first (max 4 sec); if it fails, show the fallback blog
+    const fallback = fallbackBlogs.find((b) => String(b.id) === String(id))
+
+    API.get('/blogs/' + id, { timeout: 4000 })
       .then((r) => {
         if (isMounted) {
-          setBlog(r.data.data)
+          setBlog((r.data && r.data.data) || fallback || null)
           setLoading(false)
           window.scrollTo(0, 0)
         }
@@ -39,7 +43,11 @@ export default function BlogDetail() {
       .catch(() => {
         if (isMounted) {
           setLoading(false)
-          navigate('/')
+          if (fallback) {
+            setBlog(fallback)
+          } else {
+            navigate('/')
+          }
         }
       })
 
