@@ -211,7 +211,7 @@ export default function Contact() {
                   <FiMail style={{ color: '#38bdf8' }} />
                   <div>
                     <div style={{ fontSize: '11px', color: '#334155', fontWeight: 600, textTransform: 'uppercase' }}>Email Us</div>
-                    <div style={{ color: '#e2e8f0', fontSize: '14px' }}>{settings.email || 'contact@lakshcode.com'}</div>
+                    <div style={{ color: '#e2e8f0', fontSize: '14px' }}>{settings.email || 'support.lakshcode@gmail.com'}</div>
                   </div>
                 </div>
               </a>
@@ -221,7 +221,7 @@ export default function Contact() {
                   <FiPhone style={{ color: '#818cf8' }} />
                   <div>
                     <div style={{ fontSize: '11px', color: '#334155', fontWeight: 600, textTransform: 'uppercase' }}>Call Us</div>
-                    <div style={{ color: '#e2e8f0', fontSize: '14px' }}>{settings.phone || '+91-XXXXXXXXXX'}</div>
+                    <div style={{ color: '#e2e8f0', fontSize: '14px' }}>{settings.phone || '+91-7974485587'}</div>
                   </div>
                 </div>
               </a>
