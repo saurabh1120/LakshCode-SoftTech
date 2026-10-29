@@ -8,21 +8,20 @@ import { fallbackProjects } from '../data/fallbackData'
 const PROJECTS_PER_PAGE = 3
 
 export default function Projects() {
-  const [projects, setProjects] = useState([])
+  const [projects, setProjects] = useState(fallbackProjects)
   const [selected, setSelected] = useState(null)
-  const [loading, setLoading] = useState(true)
+  const [loading] = useState(false)
   const [page, setPage] = useState(0)
   const [direction, setDirection] = useState(1)
 
   useEffect(function () {
-    // Backend data if available, otherwise fallback data
-    API.get('/projects', { timeout: 10000 })
+    // Fallback data shows instantly; backend data replaces it when available
+    API.get('/projects')
       .then(function (r) {
         const data = r.data && r.data.data
-        setProjects(data && data.length ? data : fallbackProjects)
-        setLoading(false)
+        if (data && data.length) setProjects(data)
       })
-      .catch(function () { setProjects(fallbackProjects); setLoading(false) })
+      .catch(function () { /* backend down — keep fallback data */ })
   }, [])
 
   const totalPages = Math.ceil(projects.length / PROJECTS_PER_PAGE)

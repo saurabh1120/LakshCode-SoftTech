@@ -23,18 +23,17 @@ const iconColors = [
 ]
 
 export default function Services() {
-  const [services, setServices] = useState([])
-  const [loading, setLoading] = useState(true)
+  const [services, setServices] = useState(fallbackServices)
+  const [loading] = useState(false)
 
   useEffect(function() {
-    // Backend data if available, otherwise fallback data
-    API.get('/services', { timeout: 10000 })
+    // Fallback data shows instantly; backend data replaces it when available
+    API.get('/services')
       .then(function(r) {
         const data = r.data && r.data.data
-        setServices(data && data.length ? data : fallbackServices)
-        setLoading(false)
+        if (data && data.length) setServices(data)
       })
-      .catch(function() { setServices(fallbackServices); setLoading(false) })
+      .catch(function() { /* backend down — keep fallback data */ })
   }, [])
 
   return (
