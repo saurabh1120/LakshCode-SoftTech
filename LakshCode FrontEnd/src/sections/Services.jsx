@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { motion } from 'framer-motion'
 import API from '../api/axios'
+import { fallbackServices } from '../data/fallbackData'
 import {
   FiGlobe, FiSmartphone, FiCloud, FiBriefcase,
   FiPenTool, FiCode, FiServer, FiShield, FiZap, FiDatabase,
@@ -26,9 +27,14 @@ export default function Services() {
   const [loading, setLoading] = useState(true)
 
   useEffect(function() {
-    API.get('/services')
-      .then(function(r) { setServices(r.data.data); setLoading(false) })
-      .catch(function() { setLoading(false) })
+    // Backend data if available, otherwise fallback data
+    API.get('/services', { timeout: 10000 })
+      .then(function(r) {
+        const data = r.data && r.data.data
+        setServices(data && data.length ? data : fallbackServices)
+        setLoading(false)
+      })
+      .catch(function() { setServices(fallbackServices); setLoading(false) })
   }, [])
 
   return (

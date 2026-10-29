@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { FiExternalLink, FiX, FiChevronLeft, FiChevronRight } from 'react-icons/fi'
 import API from '../api/axios'
 import { imgUrl } from '../api/imageUrl'
+import { fallbackProjects } from '../data/fallbackData'
 
 const PROJECTS_PER_PAGE = 3
 
@@ -14,9 +15,14 @@ export default function Projects() {
   const [direction, setDirection] = useState(1)
 
   useEffect(function () {
-    API.get('/projects')
-      .then(function (r) { setProjects(r.data.data); setLoading(false) })
-      .catch(function () { setLoading(false) })
+    // Backend data if available, otherwise fallback data
+    API.get('/projects', { timeout: 10000 })
+      .then(function (r) {
+        const data = r.data && r.data.data
+        setProjects(data && data.length ? data : fallbackProjects)
+        setLoading(false)
+      })
+      .catch(function () { setProjects(fallbackProjects); setLoading(false) })
   }, [])
 
   const totalPages = Math.ceil(projects.length / PROJECTS_PER_PAGE)
