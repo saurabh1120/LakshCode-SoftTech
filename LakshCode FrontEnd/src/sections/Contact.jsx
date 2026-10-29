@@ -5,6 +5,7 @@ import { FaWhatsapp } from 'react-icons/fa'
 import { useEffect, useState } from 'react'
 // import { useNavigate } from 'react-router-dom'
 import API from '../api/axios'
+import { fallbackSettings, withFallbackSettings, whatsappLink } from '../data/fallbackData'
 
 const budgets = [
   'Under ₹50,000', '₹50K – ₹1L',
@@ -40,7 +41,7 @@ function blurInput(e) {
 }
 
 export default function Contact() {
-  const [settings, setSettings] = useState({})
+  const [settings, setSettings] = useState(fallbackSettings)
   const [showModal, setShowModal] = useState(false)
   // const navigate = useNavigate()
 
@@ -51,8 +52,8 @@ export default function Contact() {
 
   useEffect(function () {
     API.get('/settings')
-      .then(function (r) { setSettings(r.data.data || {}) })
-      .catch(function () { /* Handle silently */ })
+      .then(function (r) { setSettings(withFallbackSettings(r.data && r.data.data)) })
+      .catch(function () { /* backend down — keep fallback contact details */ })
   }, [])
 
   async function onSubmit(data) {
@@ -211,7 +212,7 @@ export default function Contact() {
                   <FiMail style={{ color: '#38bdf8' }} />
                   <div>
                     <div style={{ fontSize: '11px', color: '#334155', fontWeight: 600, textTransform: 'uppercase' }}>Email Us</div>
-                    <div style={{ color: '#e2e8f0', fontSize: '14px' }}>{settings.email || 'contact@lakshcode.com'}</div>
+                    <div style={{ color: '#e2e8f0', fontSize: '14px' }}>{settings.email || 'support.lakshcode@gmail.com'}</div>
                   </div>
                 </div>
               </a>
@@ -221,13 +222,13 @@ export default function Contact() {
                   <FiPhone style={{ color: '#818cf8' }} />
                   <div>
                     <div style={{ fontSize: '11px', color: '#334155', fontWeight: 600, textTransform: 'uppercase' }}>Call Us</div>
-                    <div style={{ color: '#e2e8f0', fontSize: '14px' }}>{settings.phone || '+91-XXXXXXXXXX'}</div>
+                    <div style={{ color: '#e2e8f0', fontSize: '14px' }}>{settings.phone || '+91 7974485587'}</div>
                   </div>
                 </div>
               </a>
 
               {settings.whatsapp && (
-                <a href={`https://wa.me/${settings.whatsapp.replace(/[^0-9]/g, '')}`} target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'none' }}>
+                <a href={whatsappLink(settings.whatsapp)} target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'none' }}>
                   <div style={{ display: 'flex', alignItems: 'center', gap: '16px', padding: '18px 20px', background: 'rgba(255,255,255,0.025)', border: '1px solid rgba(255,255,255,0.07)', borderRadius: '16px', cursor: 'pointer' }}>
                     <FaWhatsapp style={{ color: '#25d366' }} />
                     <div>

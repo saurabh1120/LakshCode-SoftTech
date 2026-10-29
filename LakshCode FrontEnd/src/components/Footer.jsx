@@ -2,15 +2,17 @@ import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { FiGithub, FiLinkedin, FiInstagram, FiTwitter, FiFacebook } from 'react-icons/fi'
 import API from '../api/axios'
+import { FaWhatsapp } from 'react-icons/fa'
+import { fallbackSettings, withFallbackSettings, whatsappLink } from '../data/fallbackData'
 import logo from '../assets/logo.png'
 
 export default function Footer() {
-  const [settings, setSettings] = useState({})
+  const [settings, setSettings] = useState(fallbackSettings)
 
   useEffect(function () {
     API.get('/settings')
-      .then(function (r) { setSettings(r.data.data || {}) })
-      .catch(function () { })
+      .then(function (r) { setSettings(withFallbackSettings(r.data && r.data.data)) })
+      .catch(function () { /* backend down — keep fallback contact details */ })
   }, [])
 
   const socials = [
@@ -118,17 +120,21 @@ export default function Footer() {
               Contact
             </h4>
             <div style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
-              {[
-                settings.email || 'contact@lakshcode.com',
-                settings.phone || '+91-XXXXXXXXXX',
-                settings.address || 'Raipur, Chhattisgarh',
-              ].map(function (item, i) {
-                return (
-                  <span key={i} style={{ fontSize: '14px', color: '#94a3b8', lineHeight: 1.5 }}>
-                    {item}
-                  </span>
-                )
-              })}
+              <a href={'mailto:' + settings.email} style={{ fontSize: '14px', color: '#94a3b8', lineHeight: 1.5, textDecoration: 'none' }}>
+                {settings.email}
+              </a>
+              <a href={'tel:' + String(settings.phone).replace(/\s/g, '')} style={{ fontSize: '14px', color: '#94a3b8', lineHeight: 1.5, textDecoration: 'none' }}>
+                {settings.phone}
+              </a>
+              {settings.whatsapp && (
+                <a href={whatsappLink(settings.whatsapp)} target="_blank" rel="noopener noreferrer"
+                  style={{ fontSize: '14px', color: '#4ade80', lineHeight: 1.5, textDecoration: 'none', display: 'inline-flex', alignItems: 'center', gap: '8px' }}>
+                  <FaWhatsapp size={16} /> Chat on WhatsApp
+                </a>
+              )}
+              <span style={{ fontSize: '14px', color: '#94a3b8', lineHeight: 1.5 }}>
+                {settings.address}
+              </span>
             </div>
           </div>
         </div>

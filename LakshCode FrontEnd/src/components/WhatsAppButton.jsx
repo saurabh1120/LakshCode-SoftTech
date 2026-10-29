@@ -2,9 +2,10 @@ import { useEffect, useState } from 'react'
 import { motion } from 'framer-motion'
 import { FaWhatsapp } from 'react-icons/fa'
 import API from '../api/axios'
+import { fallbackSettings, whatsappLink } from '../data/fallbackData'
 
 export default function WhatsAppButton() {
-  const [whatsapp, setWhatsapp] = useState('')
+  const [whatsapp, setWhatsapp] = useState(fallbackSettings.whatsapp)
 
   useEffect(function () {
     API.get('/settings')
@@ -19,9 +20,8 @@ export default function WhatsAppButton() {
 
   if (!whatsapp) return null
 
-  // Clean the number — remove +, spaces, dashes
-  const cleaned = whatsapp.replace(/[^0-9]/g, '')
-  const waLink = 'https://wa.me/' + cleaned
+  // Opens WhatsApp chat with a ready greeting message
+  const waLink = whatsappLink(whatsapp)
 
   return (
     <motion.a

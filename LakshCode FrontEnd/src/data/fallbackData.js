@@ -3,7 +3,8 @@
 //  When the backend is live and returns data, this file is ignored.
 // ============================================================
 
-// Full URL so imgUrl() uses it as-is (images live in public/images/projects)
+// Full URL so imgUrl() uses it as-is.
+// Local images live in public/images/projects; others are free Unsplash photos.
 const img = (file) => window.location.origin + '/images/projects/' + file
 
 // icon must be one of: FaGlobe, FaMobile, FaCloud, FaBriefcase, FaPencilRuler,
@@ -57,7 +58,7 @@ export const fallbackProjects = [
       'Revenue, expenses and net-profit reports',
     ].join('\n'),
     liveLink: 'https://lakshfit.in',
-    imageUrl: img('lakshfit.svg'),
+    imageUrl: 'https://images.unsplash.com/photo-1576678927484-cc907957088c?w=1200&q=80&auto=format&fit=crop',
   },
   {
     id: 2, displayOrder: 2, active: true,
@@ -72,7 +73,7 @@ export const fallbackProjects = [
       'Sales analytics and public restaurant website',
     ].join('\n'),
     liveLink: '',
-    imageUrl: img('lakshdine.svg'),
+    imageUrl: 'https://images.unsplash.com/photo-1652021979353-2288f1835b65?w=1200&q=80&auto=format&fit=crop',
   },
   {
     id: 3, displayOrder: 3, active: true,
@@ -101,7 +102,7 @@ export const fallbackProjects = [
       'Team roles and agency-level dashboards',
     ].join('\n'),
     liveLink: '',
-    imageUrl: img('urjalytics.svg'),
+    imageUrl: 'https://images.unsplash.com/photo-1711214622639-42bb82a167e8?w=1200&q=80&auto=format&fit=crop',
   },
   {
     id: 5, displayOrder: 5, active: true,
@@ -116,7 +117,7 @@ export const fallbackProjects = [
       '32-table relational database design',
     ].join('\n'),
     liveLink: '',
-    imageUrl: img('loan-platform.svg'),
+    imageUrl: 'https://images.unsplash.com/photo-1735547876935-7be80eae1c88?w=1200&q=80&auto=format&fit=crop',
   },
   {
     id: 6, displayOrder: 6, active: true,
@@ -133,3 +134,33 @@ export const fallbackProjects = [
     imageUrl: img('lakshcode-cms.jpg'),
   },
 ]
+
+// ---------------- CONTACT DETAILS ----------------
+// Shown when the backend is down. Backend values (when available) take priority.
+export const fallbackSettings = {
+  companyName: 'LakshCode SoftTech',
+  email: 'support.lakshcode@gmail.com',
+  phone: '+91 7974485587',
+  whatsapp: '+91 7974485587',
+  address: 'Raipur, Chhattisgarh, India',
+  footerTagline: 'Building Digital Futures — Premium Software Solutions that Scale with your Business.',
+}
+
+// Message pre-filled when someone opens WhatsApp from the website
+export const whatsappGreeting = "Hi LakshCode SoftTech, I'd like to discuss a project."
+
+// Merge backend settings over the fallback (ignores empty backend values)
+export function withFallbackSettings(data) {
+  const out = Object.assign({}, fallbackSettings)
+  if (data) {
+    Object.keys(data).forEach(function (k) {
+      if (data[k] !== null && data[k] !== undefined && data[k] !== '') out[k] = data[k]
+    })
+  }
+  return out
+}
+
+// WhatsApp chat link for a number like '+91 7974485587'
+export function whatsappLink(number) {
+  return 'https://wa.me/' + String(number || '').replace(/[^0-9]/g, '') + '?text=' + encodeURIComponent(whatsappGreeting)
+}
